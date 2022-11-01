@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class CarParser {
     public static void main(String[] args) {
         try {
-            Document doc = Jsoup.connect("https://auto.drom.ru/mercedes-benz/g-class/").get();
+            Document document = Jsoup.connect("https://auto.drom.ru/mercedes-benz/g-class/").get();
 
-            System.out.println(GetPrice(doc));
+            System.out.println(GetPrice(document));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +29,17 @@ public class CarParser {
         }
 
         return priceArray;
+    }
+    
+    public static ArrayList<Object> GetCreatedDate(Document document) {
+        var stringDate = document.getElementsByAttributeValue("data-ftid", "bull_date").text();
+        var createdDateArray = new ArrayList<>();
+        
+        for (String word : stringDate.split("назад")) {
+            createdDateArray.add(word + "назад");
+        }
+
+        return createdDateArray;
     }
 }
 
