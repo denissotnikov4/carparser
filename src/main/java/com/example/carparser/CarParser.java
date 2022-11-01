@@ -11,6 +11,8 @@ public class CarParser {
         try {
             Document document = Jsoup.connect("https://auto.drom.ru/mercedes-benz/g-class/?minprobeg=5000").get();
 
+            System.out.println(GetPrice(document));
+            System.out.println(GetCreatedDate(document));
             System.out.println(GetDescription(document));
         }
         catch (Exception e) {
