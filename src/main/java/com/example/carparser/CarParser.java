@@ -3,6 +3,7 @@ package com.example.carparser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,13 @@ public class CarParser {
             System.out.println(GetPrice(document));
             System.out.println(GetCreatedDate(document));
             System.out.println(GetDescription(document));
+            System.out.println(GetLinks(document));
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static ArrayList<Integer> GetPrice(Document document) {
         var stringPrice = document.getElementsByAttributeValue("data-ftid", "bull_price");
         var priceArray = new ArrayList<Integer>();
@@ -43,6 +46,7 @@ public class CarParser {
         return createdDateArray;
     }
 
+    // Работает при условии, что пробег автомобиля больше 1000
     public static ArrayList<String> GetDescription(Document document) {
         var stringDescription = document.getElementsByAttributeValue("data-ftid", "component_inline-bull-description").text();
         var arrayDescription = new ArrayList<String>();
@@ -61,6 +65,21 @@ public class CarParser {
         }
 
         return arrayDescription;
+    }
+
+    public static ArrayList<String> GetLinks(Document document) {
+        Elements links = document.select("a[href]");
+        var arrayLinks = new ArrayList<String>();
+
+        var count = 0;
+        for (Element link : links) {
+            if (count >= 20 && count < 40) {
+                arrayLinks.add(link.attr("href"));
+            }
+            count = count + 1;
+        }
+
+        return arrayLinks;
     }
 }
 
